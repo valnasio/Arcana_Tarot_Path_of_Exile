@@ -1,7 +1,7 @@
 const cardContainer = document.getElementById('card-container');
 const resetButton = document.querySelector('button');
 
-const allImages = Array.from({ length: 78 }, (_, i) => `c${i + 1}.png`);
+const allImages = Array.from({ length: 22 }, (_, i) => `c${i + 1}.png`);
 let cards = [];
 
 function createCard(image) {
