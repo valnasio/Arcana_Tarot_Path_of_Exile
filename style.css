@@ -94,7 +94,7 @@ body {
 
 .button-container {
     text-align: center;
-    margin-top: 3vw;
+    margin-top: 2vw;
     /* Ajustado para 120% */
 }
 
@@ -104,7 +104,7 @@ button {
     color: rgb(255, 255, 255);
     padding: 1.2vw 2.4vw;
     /* Ajustado para 120% */
-    font-size: 1.2vw;
+    font-size: 1.1vw;
     /* Ajustado para 120% */
     border: none;
     border-radius: 5px;
