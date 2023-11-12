@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tarot Online</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* Remova a propriedade background-image aqui */
+        }
+
+        .background {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            /* Adicione a imagem de fundo com o mesmo caminho da sua imagem original */
+            background-image: url('./images/fundo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Adicione o desfoque ao elemento de fundo */
+            filter: blur(4PX);
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3vw;
+            /* Ajustado para 120% */
+        }
+
+        .card {
+            width: 293px;
+            height: 540px;
+            /* Ajustado para 120% */
+            margin: 1.3vw;
+            cursor: pointer;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            background-color: rgb(54, 32, 4);
+            /* Cor de fundo das cartas, ajuste conforme necessário */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+
+        .front {
+            display: none;
+            background-size: contain;
+            background-position: center;
+        }
+
+        .botao {
+            background-color: #8B4513;
+            /* Marrom */
+            color: #ffd700;
+            /* Dourado */
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #8B4513;
+            /* Marrom */
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3vw;
+            /* Ajustado para 120% */
+        }
+
+        button {
+            background: linear-gradient(to bottom, #5f0606, #f10505);
+            /* Degrade preto para o botão */
+            color: rgb(255, 217, 0);
+            padding: 1.2vw 2.4vw;
+            /* Ajustado para 120% */
+            font-size: 1.2vw;
+            /* Ajustado para 120% */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, #1c1c1c, #383838);
+            /* Efeito hover */
+        }
+
+        @media (max-width: 600px) {
+
+            /* Ajustes para telas menores */
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                margin-top: 3vw;
+                /* Ajustado para 120% */
+            }
+        }
+
+        .card .front {
+            background-size: cover;
+            background-position: center;
+            transform: scaleX(-1);
+            /* Corrige o efeito espelhado */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background"></div>
+    <div class="card-container" id="card-container"></div>
+
+    <div class="button-container">
+        <button onclick="resetCards()">EMBARALHAR</button>
+    </div>
+
+    <script>
+        // Insira aqui o código JavaScript fornecido anteriormente
+        const cardContainer = document.getElementById('card-container');
+        const resetButton = document.querySelector('button');
+
+        const allImages = Array.from({ length: 78 }, (_, i) => `c${i + 1}.png`);
+        let cards = [];
+
+        function createCard(image) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const front = document.createElement('div');
+            front.classList.add('front');
+            front.style.backgroundImage = `url('images/${image}')`;
+
+            const back = document.createElement('div');
+            back.classList.add('back');
+            back.style.backgroundImage = 'url("images/background.png")';
+
+            const botao = document.createElement('div');
+            botao.classList.add('botao');
+            botao.innerText = 'Botão';
+            botao.addEventListener('mouseover', () => mostrarPopup(`Texto relacionado à ${image}`));
+            botao.addEventListener('mouseout', esconderPopup);
+
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.style.display = 'none'; // inicialmente escondido
+            popup.innerHTML = `<p>Texto relacionado à ${image}</p>`;
+
+            card.appendChild(front);
+            card.appendChild(back);
+            card.appendChild(botao);
+            card.appendChild(popup);
+
+            card.addEventListener('click', () => flipCard(card));
+
+            return card;
+        }
+
+        function mostrarPopup(texto) {
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.innerHTML = `<p>${texto}</p>`;
+            cardContainer.appendChild(popup);
+        }
+
+        function esconderPopup() {
+            const popups = document.querySelectorAll('.popup');
+            popups.forEach(popup => popup.remove());
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function resetCards() {
+            shuffle(allImages);
+
+            cards.forEach((card, index) => {
+                let imageName = allImages[index];
+                imageName = findValidImage(imageName, index);
+
+                card.querySelector('.front').style.backgroundImage = `url('images/${imageName}')`;
+                card.classList.remove('flipped');
+                card.querySelector('.front').style.display = 'none';
+                card.querySelector('.back').style.display = 'block';
+            });
+        }
+
+        function findValidImage(imageName, currentIndex) {
+            const imagePath = `images/${imageName}`;
+            const imageExists = new Image();
+            imageExists.src = imagePath;
+
+            if (!imageExists.complete || typeof imageExists.naturalWidth === "undefined" || imageExists.naturalWidth === 0 || isImageAttached(imageName, currentIndex)) {
+                const validImages = allImages.filter(img => !isImageAttached(img) && doesImageExist(img));
+                return validImages[Math.floor(Math.random() * validImages.length)];
+            }
+
+            return imageName;
+        }
+
+        function doesImageExist(imageName) {
+            const imagePath = `images/${imageName}`;
+            const imageExists = new Image();
+            imageExists.src = imagePath;
+            return imageExists.complete && typeof imageExists.naturalWidth !== "undefined" && imageExists.naturalWidth !== 0;
+        }
+
+        function isImageAttached(imageName, currentIndex) {
+            return cards.some((card, index) => index !== currentIndex && card.querySelector('.front').style.backgroundImage.includes(imageName));
+        }
+
+        function flipCard(card) {
+            card.classList.add('flipped');
+            card.querySelector('.front').style.display = 'block';
+            card.querySelector('.back').style.display = 'none';
+        }
+
+        resetButton.addEventListener('click', () => {
+            resetCards();
+            esconderPopup(); // Esconde as mensagens ao clicar em "Embaralhar"
+        });
+
+        // Criando os cards
+        for (let i = 0; i < 4; i++) {
+            const imageName = allImages[i];
+            const card = createCard(imageName);
+            cardContainer.appendChild(card);
+            cards.push(card);
+        }
+
+    </script>
+</body>
+
+</html>

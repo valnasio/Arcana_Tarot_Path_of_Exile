@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* Remova a propriedade background-image aqui */
+}
+
+#T1 {
+    font-family: 'Times New Roman', serif;
+    /* Fonte medieval */
+    color: #e0c6b1;
+    /* Cor branca para o texto */
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.767);
+    /* Sombra fraca atrás do texto */
+    font-size: 50px;
+    /* Tamanho inicial da fonte */
+
+    /* Efeito de metal bronze */
+    background: linear-gradient(45deg, #cd7f32, #d2691e);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* Adicione a imagem de fundo com o mesmo caminho da sua imagem original */
+    background-image: url('./images/fundo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Adicione o desfoque ao elemento de fundo */
+    filter: blur(3PX);
+}
+
+/*teste*/
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 3vw;
+    /* Ajustado para 120% */
+}
+
+.card {
+    width: 293px;
+    height: 540px;
+    /* Ajustado para 120% */
+    margin: 1.3vw;
+    cursor: pointer;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    background-color: rgba(114, 106, 98, 0.897);
+    /* Cor de fundo das cartas, ajuste conforme necessário */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.front,
+.back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.front {
+    display: none;
+    background-size: contain;
+    background-position: center;
+}
+
+
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 3vw;
+    /* Ajustado para 120% */
+}
+
+button {
+    background: linear-gradient(to bottom, #000000, #000000);
+    /* Degrade preto para o botão */
+    color: rgb(255, 255, 255);
+    padding: 1.2vw 2.4vw;
+    /* Ajustado para 120% */
+    font-size: 1.2vw;
+    /* Ajustado para 120% */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #000000, #3a3a3a);
+    /* Efeito hover */
+}
+
+@media (max-width: 600px) {
+
+    /* Ajustes para telas menores */
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        margin-top: 3vw;
+        /* Ajustado para 120% */
+    }
+}
+
+.card .front {
+    background-size: cover;
+    background-position: center;
+    transform: scaleX(-1);
+    /* Corrige o efeito espelhado */
+}
