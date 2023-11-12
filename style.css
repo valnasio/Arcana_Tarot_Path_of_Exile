@@ -54,7 +54,7 @@ body {
     width: 293px;
     height: 540px;
     /* Ajustado para 120% */
-    margin: 1.3vw;
+    margin: 1.1vw;
     cursor: pointer;
     border-radius: 5px;
     overflow: hidden;
@@ -102,7 +102,7 @@ button {
     background: linear-gradient(to bottom, #000000, #000000);
     /* Degrade preto para o botão */
     color: rgb(255, 255, 255);
-    padding: 1.2vw 2.4vw;
+    padding: 1.1vw 2.2vw;
     /* Ajustado para 120% */
     font-size: 1.1vw;
     /* Ajustado para 120% */
@@ -126,7 +126,7 @@ button:hover {
     }
 
     button {
-        margin-top: 3vw;
+        margin-top: 2vw;
         /* Ajustado para 120% */
     }
 }
